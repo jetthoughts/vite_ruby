@@ -6,8 +6,6 @@ module ViteRuby::PackageManager
     package_manager_class_for(package_manager_name).new(root: root)
   end
 
-  private
-
   def self.package_manager_class_for(package_manager_name)
     case package_manager_name.to_sym
     when :bun
@@ -33,4 +31,3 @@ module ViteRuby::PackageManager
     end
   end
 end
-
