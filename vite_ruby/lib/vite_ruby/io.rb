@@ -8,6 +8,7 @@ module ViteRuby::IO
     # Internal: A modified version of capture3 that can continuosly print stdout.
     # NOTE: Streaming output provides a better UX when running bin/vite build.
     def capture(*cmd, with_output: $stdout.method(:puts), stdin_data: '', **opts)
+      pp [with_output, *cmd, **opts]
       return Open3.capture3(*cmd, **opts) unless with_output
 
       Open3.popen3(*cmd, **opts) { |stdin, stdout, stderr, wait_threads|
@@ -15,7 +16,7 @@ module ViteRuby::IO
         stdin.close
         out = Thread.new { read_lines(stdout, &with_output) }
         err = Thread.new { stderr.read }
-        [out.value, err.value.to_s, wait_threads.value]
+        p([out.value, err.value.to_s, wait_threads.value])
       }
     end
 
